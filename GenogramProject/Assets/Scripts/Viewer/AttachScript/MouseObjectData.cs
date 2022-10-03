@@ -7,47 +7,28 @@ namespace Viewer
     public class MouseObjectData : MonoBehaviour
     {
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            var parentObject = transform.parent;
-
-            var birthdaylayoutObject = parentObject.transform.Find(Birthday);
-            if (birthdaylayoutObject != null)
-            {
-                transform.parent = birthdaylayoutObject.transform;
-                transform.position = birthdaylayoutObject.position;
-            }
-        }
-
         /// <summary>
-        /// ã‘¤–ÚˆóƒIƒuƒWƒFƒNƒg
+        /// ä¸Šå´ç›®å°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
         /// </summary>
         public GameObject _markPointObject_Upside;
 
         /// <summary>
-        /// ã‘¤üƒIƒuƒWƒFƒNƒg
+        /// ä¸Šå´ç·šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
         /// </summary>
         public GameObject _coverall_Upside;
 
         /// <summary>
-        /// ’a¶“ú
+        /// èª•ç”Ÿæ—¥
         /// </summary>
         public string Birthday;
 
         /// <summary>
-        /// –¼‘O‚ÌƒeƒLƒXƒg 
+        /// åå‰ã®ãƒ†ã‚­ã‚¹ãƒˆ 
         /// </summary>
         public GameObject _nameText;
         
         /// <summary>
-        /// ’a¶“ú‚ğİ’è
+        /// èª•ç”Ÿæ—¥ã‚’è¨­å®š
         /// </summary>
         /// <param name="birthday"></param>
         public void SetBirthday(DateTime birthday)

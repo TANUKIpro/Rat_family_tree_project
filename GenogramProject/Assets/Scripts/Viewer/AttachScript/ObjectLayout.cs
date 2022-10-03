@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,9 @@ namespace Viewer
                         //ParentObjectの場合
                         if (gameObject.transform.GetChild(i).name == "ParentObject")
                         {
-                            gameObject.transform.GetChild(i).position = new Vector3(0, 3, 0);
+                            //ParentObject
+                            var parentObj = gameObject.transform.GetChild(i);
+                            parentObj.position = new Vector3(0, 3, 0);
                         }
                         else
                         {
@@ -58,7 +60,7 @@ namespace Viewer
 
                     //前のオブジェクトの右に移動
                     gameObject.transform.GetChild(i).position = new Vector3(gameObject.transform.GetChild(i - 1).position.x + 2.5f, gameObject.transform.GetChild(i).position.y, gameObject.transform.GetChild(i).position.z);
-                    Debug.Log(gameObject.transform.GetChild(i).name + " :  " + gameObject.transform.GetChild(i).position);
+
                 }
             }
         }
