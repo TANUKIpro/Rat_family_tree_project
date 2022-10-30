@@ -1,4 +1,4 @@
-﻿using Entitys;
+using Entitys;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,6 +69,8 @@ namespace CoreLogic
                 var layoutObject = GameObject.Find(data.FatherId + "-" + data.MotherId);
                 //見つからなければ処理終了
                 if (layoutObject == null) continue;
+                //タグを変更
+                layoutObject.tag = "ChildLayoutObject";
 
                 GameObject gameObject = null;
 
@@ -122,6 +124,8 @@ namespace CoreLogic
                     layoutObject = _gameManager.ObjectDisposition("ObjectLayout");
                     //名前変更
                     layoutObject.name = parentData["FatherId"] + "-" + parentData["MotherId"];
+                    //タグを変更
+                    layoutObject.tag = "ChildLayoutObject";
                     //レイアウトオブジェクトをリストに追加
                     _layoutObjectList.Add(layoutObject);
                 }
@@ -136,6 +140,8 @@ namespace CoreLogic
                     layoutObject = _gameManager.ObjectDisposition("ObjectLayout");
                     //名前変更
                     layoutObject.name = parentData["FatherId"] + "-" + parentData["MotherId"];
+                    //タグを変更
+                    layoutObject.tag = "ChildLayoutObject";
                     //レイアウトオブジェクトをリストに追加
                     _layoutObjectList.Add(layoutObject);
                 }
@@ -176,6 +182,8 @@ namespace CoreLogic
 
                     //配置を整える用のオブジェクトを生成
                     var parentObj = layoutObject.transform.GetChild(0);
+                    //タグを変更
+                    parentObj.tag = "ChildLayoutObject";
                     //配置を整えるオブジェクトの子に移動
                     gameObject.transform.parent = parentObj;
 
@@ -191,6 +199,8 @@ namespace CoreLogic
             //子オブジェクトを誕生日ごとに分ける
             foreach (var layoutObject in _layoutObjectList)
             {
+                //タグを変更
+                layoutObject.tag = "OriginLayoutObject";
                 //子オブジェクトリスト作成
                 for (var i = 0; i < layoutObject.transform.childCount; ++i)
                 {
@@ -222,6 +232,8 @@ namespace CoreLogic
                     //名前と場所変更
                     instance.transform.name = birthdayList[i - 1];
                     instance.transform.parent = layoutObject.transform;
+                    //タグを変更
+                    instance.tag = "ChildLayoutObject";
                 }
             }
         }
@@ -255,6 +267,8 @@ namespace CoreLogic
                     child.transform.parent = birthdaylayoutObject.transform;
                     //位置を親と同じにする
                     child.transform.position = birthdaylayoutObject.position;
+                    //タグを変更
+                    birthdaylayoutObject.tag = "ChildLayoutObject";
                 }
             }
 
@@ -265,24 +279,20 @@ namespace CoreLogic
         /// <summary>
         /// つなぎ線オブジェクトの配置
         /// </summary>
-        /// <param name="objectName"></param>
-        public void ConnectingLineObjectDisposition(ObjectName objectName,GameObject markPoint_1,GameObject markPoint_2)
+        /// <param name="Tag">配置するオブジェクトのタグ</param>
+        public void ConnectingLineObjectDisposition(string tag)
         {
             GameObject gameObject;
-            switch (objectName)
+
+            if (tag == "OriginLayoutObject")
             {
-                // つなぎ線オブジェクト　並列
-                case ObjectName.ConnectingLine_Parallel:
-                    gameObject = (GameObject)Resources.Load(ObjectName.ConnectingLine_Parallel.ToString());
 
-                    break;
-
-                // つなぎ線オブジェクト　直列
-                case ObjectName.ConnectingLine_Series:
-                    gameObject = (GameObject)Resources.Load(ObjectName.ConnectingLine_Series.ToString());
-
-                    break;
             }
+            else if(tag == "ChildLayoutObject")
+            {
+
+            }
+            
         }
 
     }

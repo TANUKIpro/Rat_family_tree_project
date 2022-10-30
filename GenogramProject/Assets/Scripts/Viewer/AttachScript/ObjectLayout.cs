@@ -1,3 +1,5 @@
+using CoreLogicApi;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +11,15 @@ namespace Viewer
     /// </summary>
     public class ObjectLayout : MonoBehaviour
     {
+
+        //レイアウト完了したかのフラグ
+        private int _layoutCompletion = 0;
+
+        /// <summary>
+        /// オブジェクト配置コアロジッククラスAPI
+        /// </summary>
+        CLObjectDeployManagerApi _objectDeployManagerApi = new CLObjectDeployManagerApi();
+
 
         // Start is called before the first frame update
         void Start()
@@ -22,6 +33,13 @@ namespace Viewer
         /// </summary>
         void Update()
         {
+            //レイアウト完了していれば実行しない
+            if (_layoutCompletion > 10)
+            {
+                ConnectingLineObjectDisposition();
+                return;
+            }
+
             //最上位ノード
             //判定：子ノードが存在する。かつ、子ノードの最初の名前がParentObject
             if (gameObject.transform.childCount != 0 && gameObject.transform.GetChild(0).name == "ParentObject")
@@ -48,6 +66,7 @@ namespace Viewer
                         }
                     }
                 }
+                _layoutCompletion += 1;
             }
             //第二位ノード
             //判定：子ノードが存在する。
@@ -62,7 +81,19 @@ namespace Viewer
                     gameObject.transform.GetChild(i).position = new Vector3(gameObject.transform.GetChild(i - 1).position.x + 2.5f, gameObject.transform.GetChild(i).position.y, gameObject.transform.GetChild(i).position.z);
 
                 }
+                _layoutCompletion+=1;
             }
+        }
+
+
+        /// <summary>
+        /// つなぎ線の配置
+        /// </summary>
+        private void ConnectingLineObjectDisposition()
+        {
+
+            _objectDeployManagerApi.ConnectingLineObjectDisposition(this.tag);
+
         }
     }
 }

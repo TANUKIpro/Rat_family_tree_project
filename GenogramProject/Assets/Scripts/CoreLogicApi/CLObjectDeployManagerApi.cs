@@ -6,6 +6,9 @@ using static CoreLogic.CLObjectDeployManager;
 
 namespace CoreLogicApi
 {
+    /// <summary>
+    /// オブジェクト配置コアロジッククラスAPI
+    /// </summary>
     public class CLObjectDeployManagerApi
     {
         CLObjectDeployManager _objectDeployManager;
@@ -17,21 +20,30 @@ namespace CoreLogicApi
 
 
         /// <summary>
-        /// �v�f�I�u�W�F�N�g�z�u
+        /// 要素オブジェクト配置
         /// </summary>
-        /// <param name="objectName">�I�u�W�F�N�g��</param>
-        /// <param name="mouseData">�}�E�X�f�[�^�G���e�B�e�B</param>
+        /// <param name="objectName">オブジェクト名</param>
+        /// <param name="mouseData">マウスデータエンティティ</param>
         public void ChildObjectGenerate( List<MouseDataEntity> mouseData)
         {
             _objectDeployManager.ChildObjectGenerate(mouseData);
         }
 
         /// <summary>
-        /// �e�I�u�W�F�N�g�̔z�u�𐮂���
+        /// 親オブジェクトの配置を整える
         /// </summary>
         public void ParentObjectArrange(List<Dictionary<string, string>> parentDataList)
         {
             _objectDeployManager.ParentObjectGenerate(parentDataList);
+        }
+
+        /// <summary>
+        /// つなぎ線オブジェクトの配置
+        /// </summary>
+        /// <param name="Tag">配置するオブジェクトのタグ</param>
+        public void ConnectingLineObjectDisposition(string tag)
+        {
+            ConnectingLineObjectDisposition(tag);
         }
     }
 }

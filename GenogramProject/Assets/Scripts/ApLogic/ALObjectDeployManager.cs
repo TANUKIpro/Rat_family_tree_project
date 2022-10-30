@@ -1,4 +1,4 @@
-﻿
+
 using CoreLogicApi;
 using Entitys;
 using System.Collections.Generic;
@@ -7,11 +7,13 @@ using static CoreLogic.CLObjectDeployManager;
 
 namespace ApLogic
 {
-
+    /// <summary>
+    /// オブジェクト配置ロジッククラス
+    /// </summary>
     public class ALObjectDeployManager
     {
+        // オブジェクト配置コアロジッククラスAPI
         CLObjectDeployManagerApi _objectDeployManagerApi = new CLObjectDeployManagerApi();
-
 
 
         /// <summary>

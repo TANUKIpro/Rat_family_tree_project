@@ -1,4 +1,4 @@
-﻿using ApLogic;
+using ApLogic;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,11 +27,6 @@ namespace Presenter
         {
 
             Initialize();
-        }
-
-        public PDeployObjectPresenter CreateInstance()
-        {
-            return new PDeployObjectPresenter();
         }
 
         /// <summary>
@@ -85,9 +80,6 @@ namespace Presenter
 
             //オブジェクト配置
             _objectDeployManager.ObjectDisposition(parentSetdata, dataList);
-
-
-
         }
         
     }
