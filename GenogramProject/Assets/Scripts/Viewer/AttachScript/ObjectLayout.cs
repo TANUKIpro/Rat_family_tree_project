@@ -18,13 +18,13 @@ namespace Viewer
         /// <summary>
         /// オブジェクト配置コアロジッククラスAPI
         /// </summary>
-        CLObjectDeployManagerApi _objectDeployManagerApi = new CLObjectDeployManagerApi();
+        CLObjectDeployManagerApi _objectDeployManagerApi;
 
 
         // Start is called before the first frame update
         void Start()
         {
-
+            _objectDeployManagerApi = new CLObjectDeployManagerApi();
         }
 
         /// <summary>
@@ -34,9 +34,15 @@ namespace Viewer
         void Update()
         {
             //レイアウト完了していれば実行しない
-            if (_layoutCompletion > 10)
+            if (_layoutCompletion == 10)
             {
                 ConnectingLineObjectDisposition();
+                _layoutCompletion += 1;
+                return;
+            }
+            //レイアウト完了していれば実行しない
+            if (_layoutCompletion > 10)
+            {
                 return;
             }
 
@@ -91,8 +97,9 @@ namespace Viewer
         /// </summary>
         private void ConnectingLineObjectDisposition()
         {
+            string tag = this.gameObject.tag;
 
-            _objectDeployManagerApi.ConnectingLineObjectDisposition(this.tag);
+            _objectDeployManagerApi.ConnectingLineObjectDisposition(tag);
 
         }
     }

@@ -43,7 +43,7 @@ namespace CoreLogicApi
         /// <param name="Tag">配置するオブジェクトのタグ</param>
         public void ConnectingLineObjectDisposition(string tag)
         {
-            ConnectingLineObjectDisposition(tag);
+            _objectDeployManager.ConnectingLineObjectDisposition(tag);
         }
     }
 }
