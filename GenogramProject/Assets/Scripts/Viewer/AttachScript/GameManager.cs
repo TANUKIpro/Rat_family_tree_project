@@ -11,26 +11,43 @@ namespace Viewer
     {
 
         /// <summary>
-        /// ƒƒCƒ“ƒV[ƒ“ƒvƒŒƒ[ƒ“ƒ^[
+        /// ãƒ¡ã‚¤ãƒ³ã‚·ãƒ¼ãƒ³ãƒ—ãƒ¬ã‚¼ãƒ³ã‚¿ãƒ¼
         /// </summary>
         PMaineScenePresenter maineScenePresenter;
 
         /// <summary>
-        /// ƒf[ƒ^ƒZƒbƒeƒBƒ“ƒOƒvƒŒƒ[ƒ“ƒ^[
+        /// ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒ†ã‚£ãƒ³ã‚°ãƒ—ãƒ¬ã‚¼ãƒ³ã‚¿ãƒ¼
         /// </summary>
         PDeployObjectPresenter DeployObjectPresenter;
 
         /// <summary>
-        /// ƒIƒuƒWƒFƒNƒg¶¬Š®—¹ƒCƒxƒ“ƒg
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆå®Œäº†ã‚¤ãƒ™ãƒ³ãƒˆ
         /// </summary>
         public event Action<bool> ObjectGenerationCompleteEvent;
 
         /// <summary>
-        /// ‹N“®‚É1‰ñ‚¾‚¯ŒÄ‚Î‚ê‚é
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆååˆ—æŒ™å‹
+        /// </summary>
+        public enum ObjectName
+        {
+            // ã‚ªã‚¹ç”¨ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
+            MaleObject,
+            // ãƒ¡ã‚¹ç”¨ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
+            FemaleObject,
+            //ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+            ObjectLayout,
+            // ã¤ãªãç·šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€€ä¸¦åˆ—
+            ConnectingLine_Parallel,
+            // ã¤ãªãç·šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€€ç›´åˆ—
+            ConnectingLine_Series,
+        }
+
+        /// <summary>
+        /// èµ·å‹•æ™‚ã«1å›ã ã‘å‘¼ã°ã‚Œã‚‹
         /// </summary>
         void Start()
         {
-            //ŠeíƒvƒŒƒ[ƒ“ƒ^[‚Ìinstance‚ğ‹N‚±‚·
+            //å„ç¨®ãƒ—ãƒ¬ã‚¼ãƒ³ã‚¿ãƒ¼ã®instanceã‚’èµ·ã“ã™
             CreatePrewsenterInstance();
         }
 
@@ -46,30 +63,49 @@ namespace Viewer
         }
 
         /// <summary>
-        /// ŠeíƒvƒŒƒ[ƒ“ƒ^[‚Ìinstance‚ğ‹N‚±‚·
+        /// å„ç¨®ãƒ—ãƒ¬ã‚¼ãƒ³ã‚¿ãƒ¼ã®instanceã‚’èµ·ã“ã™
         /// </summary>
         void CreatePrewsenterInstance()
         {
-            //ƒƒCƒ“ƒV[ƒ“ƒvƒŒƒ[ƒ“ƒ^[
+            //ãƒ¡ã‚¤ãƒ³ã‚·ãƒ¼ãƒ³ãƒ—ãƒ¬ã‚¼ãƒ³ã‚¿ãƒ¼
             maineScenePresenter = new PMaineScenePresenter();
 
-            //ƒf[ƒ^ƒZƒbƒeƒBƒ“ƒOƒvƒŒƒ[ƒ“ƒ^[
+            //ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒ†ã‚£ãƒ³ã‚°ãƒ—ãƒ¬ã‚¼ãƒ³ã‚¿ãƒ¼
             DeployObjectPresenter = new PDeployObjectPresenter();
         }
 
         /// <summary>
-        /// ˆø”‚Å“n‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ¶¬
+        /// å¼•æ•°ã§æ¸¡ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
         /// </summary>
-        /// <param name="objName">ƒIƒuƒWƒFƒNƒg–¼</param>
+        /// <param name="objName">ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå</param>
         /// <returns></returns>
-        public GameObject ObjectDisposition(string objName)
+        public GameObject ObjectDisposition(ObjectName objName)
         {
-            return Instantiate((GameObject)Resources.Load(objName), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
 
+            //switchæ–‡
+            switch (objName)
+            {
+                case ObjectName.MaleObject:
+                    return Instantiate((GameObject)Resources.Load("MaleObject"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+
+                case ObjectName.FemaleObject:
+                    return Instantiate((GameObject)Resources.Load("FemaleObject"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+
+                case ObjectName.ObjectLayout:
+                    return Instantiate((GameObject)Resources.Load("ObjectLayout"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+
+                case ObjectName.ConnectingLine_Parallel:
+                    return Instantiate((GameObject)Resources.Load("ConnectingLine_Parallel"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+
+                case ObjectName.ConnectingLine_Series:
+                    return Instantiate((GameObject)Resources.Load("ConnectingLine_Series"), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+            }
+
+            return null;
         }
 
         /// <summary>
-        /// ƒIƒuƒWƒFƒNƒg‚ğ¶¬
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
         /// </summary>
         /// <param name="obj"></param>
         public GameObject Instantiate(GameObject obj)

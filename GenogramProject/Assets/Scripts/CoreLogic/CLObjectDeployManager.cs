@@ -8,7 +8,7 @@ using Viewer;
 
 namespace CoreLogic
 {
-
+    
     /// <summary>
     /// オブジェクト配置コアロジッククラス
     /// </summary>
@@ -28,20 +28,6 @@ namespace CoreLogic
         /// 子オブジェクトリスト
         /// </summary>
         private List<Transform> _childrenList = new List<Transform>();
-        /// <summary>
-        /// オブジェクト名列挙型
-        /// </summary>
-        public enum ObjectName
-        {
-            // オス用のオブジェクト名
-            MaleObject,
-            // メス用のオブジェクト名
-            FemaleObject,
-            // つなぎ線オブジェクト　並列
-            ConnectingLine_Parallel,
-            // つなぎ線オブジェクト　直列
-            ConnectingLine_Series,
-        }
 
         /// <summary>
         /// コンストラクタ
@@ -80,13 +66,13 @@ namespace CoreLogic
                     // オス用のオブジェクト名
                     case "MaleObject":
                         //オブジェクト配置
-                        gameObject = _gameManager.ObjectDisposition("MaleObject");
+                        gameObject = _gameManager.ObjectDisposition(GameManager.ObjectName.MaleObject);
                         break;
 
                     // メス用のオブジェクト名
                     case "FemaleObject":
                         //オブジェクト配置
-                        gameObject = _gameManager.ObjectDisposition("FemaleObject");
+                        gameObject = _gameManager.ObjectDisposition(GameManager.ObjectName.FemaleObject);
                         break;
                 }
                 //オブジェクトが生成されていなければ処理終了
@@ -121,11 +107,9 @@ namespace CoreLogic
                 if (_layoutObjectList.Find(n => n.name == parentData["FatherId"] + "-" + parentData["MotherId"]) == null)
                 {
                     //レイアウト用オブジェクト配置
-                    layoutObject = _gameManager.ObjectDisposition("ObjectLayout");
+                    layoutObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ObjectLayout);
                     //名前変更
                     layoutObject.name = parentData["FatherId"] + "-" + parentData["MotherId"];
-                    //タグを変更
-                    layoutObject.tag = "ChildLayoutObject";
                     //レイアウトオブジェクトをリストに追加
                     _layoutObjectList.Add(layoutObject);
                 }
@@ -137,11 +121,9 @@ namespace CoreLogic
                 if (layoutObject == null)
                 {
                     //レイアウト用オブジェクト配置
-                    layoutObject = _gameManager.ObjectDisposition("ObjectLayout");
+                    layoutObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ObjectLayout);
                     //名前変更
                     layoutObject.name = parentData["FatherId"] + "-" + parentData["MotherId"];
-                    //タグを変更
-                    layoutObject.tag = "ChildLayoutObject";
                     //レイアウトオブジェクトをリストに追加
                     _layoutObjectList.Add(layoutObject);
                 }
@@ -159,7 +141,7 @@ namespace CoreLogic
                         // オス用のオブジェクト名
                         case "FatherId":
                             //オブジェクト生成
-                            gameObject = _gameManager.ObjectDisposition("MaleObject");
+                            gameObject = _gameManager.ObjectDisposition(GameManager.ObjectName.MaleObject);
                             //つなぎ線オブジェクトを見えなくする
                             gameObject.GetComponent<MouseObjectData>()?._coverall_Upside.SetActive(false);
                             break;
@@ -167,7 +149,7 @@ namespace CoreLogic
                         // メス用のオブジェクト名
                         case "MotherId":
                             //オブジェクト生成
-                            gameObject = _gameManager.ObjectDisposition("FemaleObject");
+                            gameObject = _gameManager.ObjectDisposition(GameManager.ObjectName.FemaleObject);
                             //つなぎ線オブジェクトを見えなくする
                             gameObject.GetComponent<MouseObjectData>()?._coverall_Upside.SetActive(false);
                             break;
@@ -183,7 +165,7 @@ namespace CoreLogic
                     //配置を整える用のオブジェクトを生成
                     var parentObj = layoutObject.transform.GetChild(0);
                     //タグを変更
-                    parentObj.tag = "ChildLayoutObject";
+                    parentObj.tag = "ParentLayoutObject";
                     //配置を整えるオブジェクトの子に移動
                     gameObject.transform.parent = parentObj;
 
@@ -232,8 +214,6 @@ namespace CoreLogic
                     //名前と場所変更
                     instance.transform.name = birthdayList[i - 1];
                     instance.transform.parent = layoutObject.transform;
-                    //タグを変更
-                    instance.tag = "ChildLayoutObject";
                 }
             }
         }
@@ -279,12 +259,18 @@ namespace CoreLogic
         /// <summary>
         /// つなぎ線オブジェクトの配置
         /// </summary>
-        /// <param name="Tag">配置するオブジェクトのタグ</param>
+        /// <param name="tag">配置するオブジェクトのタグ</param>
         public void ConnectingLineObjectDisposition(string tag)
         {
             GameObject gameObject;
 
+            //タグの種類で場合分け
+
             if (tag == "OriginLayoutObject")
+            {
+
+            }
+            else if (tag == "ParentLayoutObject")
             {
 
             }
