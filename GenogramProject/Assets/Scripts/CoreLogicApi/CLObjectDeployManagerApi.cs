@@ -40,10 +40,10 @@ namespace CoreLogicApi
         /// <summary>
         /// つなぎ線オブジェクトの配置
         /// </summary>
-        /// <param name="Tag">配置するオブジェクトのタグ</param>
-        public void ConnectingLineObjectDisposition(string tag)
+        /// <param name="targetObject">配置するオブジェクト</param>
+        public void ConnectingLineObjectDisposition(GameObject targetObject)
         {
-            _objectDeployManager.ConnectingLineObjectDisposition(tag);
+            _objectDeployManager.ConnectingLineObjectDisposition(targetObject);
         }
     }
 }

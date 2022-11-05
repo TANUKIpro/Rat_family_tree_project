@@ -259,24 +259,49 @@ namespace CoreLogic
         /// <summary>
         /// つなぎ線オブジェクトの配置
         /// </summary>
-        /// <param name="tag">配置するオブジェクトのタグ</param>
-        public void ConnectingLineObjectDisposition(string tag)
+        /// /// <param name="targetObject">配置するオブジェクト</param>
+        public void ConnectingLineObjectDisposition(GameObject targetObject)
         {
-            GameObject gameObject;
 
             //タグの種類で場合分け
 
-            if (tag == "OriginLayoutObject")
+            if (targetObject.tag == "OriginLayoutObject")
             {
 
             }
-            else if (tag == "ParentLayoutObject")
+            else if (targetObject.tag == "ParentLayoutObject")
             {
+                //オブジェクト生成
+                var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Parallel);
+                //生成したオブジェクトを対象オブジェクトの子に配置
+                createObject.transform.parent = targetObject.transform;
+                //位置を親と同じにする
+                createObject.transform.position = targetObject.transform.position;
+                createObject.transform.localPosition = new Vector3(createObject.transform.localPosition.x + 1, createObject.transform.localPosition.y, createObject.transform.localPosition.z);
+                //Z軸90に回転
+                createObject.transform.Rotate(0f,0f,90f); 
 
             }
-            else if(tag == "ChildLayoutObject")
+            else if(targetObject.tag == "ChildLayoutObject")
             {
+                //無限ループ回避のために代入
+                int loopCount = targetObject.transform.childCount - 1;
+                for (int i = 0; i < loopCount; ++i)
+                {
+                    //子オブジェクトデータ
+                    var childMouseObjectData = targetObject.transform.GetChild(i).GetComponent<MouseObjectData>();
 
+                    //オブジェクト生成
+                    var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Parallel);
+                    //生成したオブジェクトを上側目印オブジェクトの子に配置
+                    createObject.transform.parent = childMouseObjectData._markPointObject_Upside.transform;
+                    //位置を親と同じにする
+                    createObject.transform.position = childMouseObjectData._markPointObject_Upside.transform.position;
+                    createObject.transform.localPosition = new Vector3(createObject.transform.localPosition.x + 6, createObject.transform.localPosition.y, createObject.transform.localPosition.z);
+
+                    //Z軸90に回転
+                    createObject.transform.Rotate(0f, 0f, 90f);
+                }
             }
             
         }

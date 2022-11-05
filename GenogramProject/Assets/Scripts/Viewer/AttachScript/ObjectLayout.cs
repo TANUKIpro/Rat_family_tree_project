@@ -97,9 +97,7 @@ namespace Viewer
         /// </summary>
         private void ConnectingLineObjectDisposition()
         {
-            string tag = this.gameObject.tag;
-
-            _objectDeployManagerApi.ConnectingLineObjectDisposition(tag);
+            _objectDeployManagerApi.ConnectingLineObjectDisposition(this.gameObject);
 
         }
     }
