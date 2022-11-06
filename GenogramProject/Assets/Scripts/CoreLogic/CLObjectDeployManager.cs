@@ -267,7 +267,33 @@ namespace CoreLogic
 
             if (targetObject.tag == "OriginLayoutObject")
             {
+                //並列のつなぎ線オブジェクトは自分の子がいる場合１個配置
+                //最初の子に対して並列オブジェクトで親とつなげる
+                if (targetObject.transform.childCount > 1)
+                {
+                    //オブジェクト生成
+                    var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Parallel);
+                    //位置と大きさ,角度の調整
+                    //レイアウト崩れる場合ヒエラルキーの操作を前段階で追加する必要あるかも？
+                    //現状ヒエラルキーから２番目のオブジェクトと親をつなぎたいのでそのようにする。
+                    //createObject.transform.parent = targetObject.transform;
+                    //位置と大きさ,角度の調整
+                    createObject.transform.position = targetObject.transform.GetChild(1).GetChild(0).GetComponent<MouseObjectData>()._markPointObject_Upside.transform.position;
+                    createObject.transform.localPosition = new Vector3(createObject.transform.localPosition.x, createObject.transform.localPosition.y+2.0f, createObject.transform.localPosition.z);
+                    createObject.transform.localScale = new Vector3(0.2f, 2.3f, 0.2f);
+                }
+                //無限ループ回避のために代入
+                //並列のつなぎ線オブジェクトは自分の子-2個配置
+                int loopCount = targetObject.transform.childCount - 2;
+                for (int i = 0; i < loopCount; ++i)
+                {
+                    //オブジェクト生成
+                    var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Series);
+                    //位置と大きさ,角度の調整
+                    createObject.transform.position = targetObject.transform.GetChild(loopCount+i).GetChild(0).GetComponent<MouseObjectData>()._markPointObject_Upside.transform.position;
 
+
+                }
             }
             else if (targetObject.tag == "ParentLayoutObject")
             {
@@ -275,16 +301,16 @@ namespace CoreLogic
                 var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Parallel);
                 //生成したオブジェクトを対象オブジェクトの子に配置
                 createObject.transform.parent = targetObject.transform;
-                //位置を親と同じにする
+                //位置と大きさ,角度の調整
                 createObject.transform.position = targetObject.transform.position;
                 createObject.transform.localPosition = new Vector3(createObject.transform.localPosition.x + 1, createObject.transform.localPosition.y, createObject.transform.localPosition.z);
-                //Z軸90に回転
                 createObject.transform.Rotate(0f,0f,90f); 
 
             }
             else if(targetObject.tag == "ChildLayoutObject")
             {
                 //無限ループ回避のために代入
+                //並列のつなぎ線オブジェクトは自分の子-1個配置
                 int loopCount = targetObject.transform.childCount - 1;
                 for (int i = 0; i < loopCount; ++i)
                 {
@@ -295,11 +321,10 @@ namespace CoreLogic
                     var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Parallel);
                     //生成したオブジェクトを上側目印オブジェクトの子に配置
                     createObject.transform.parent = childMouseObjectData._markPointObject_Upside.transform;
-                    //位置を親と同じにする
+                    //位置と大きさ,角度の調整
                     createObject.transform.position = childMouseObjectData._markPointObject_Upside.transform.position;
                     createObject.transform.localPosition = new Vector3(createObject.transform.localPosition.x + 6, createObject.transform.localPosition.y, createObject.transform.localPosition.z);
-
-                    //Z軸90に回転
+                    createObject.transform.localScale = new Vector3(1,6,1);
                     createObject.transform.Rotate(0f, 0f, 90f);
                 }
             }
