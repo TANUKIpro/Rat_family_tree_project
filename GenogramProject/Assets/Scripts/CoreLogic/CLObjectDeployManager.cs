@@ -276,7 +276,6 @@ namespace CoreLogic
                     //位置と大きさ,角度の調整
                     //レイアウト崩れる場合ヒエラルキーの操作を前段階で追加する必要あるかも？
                     //現状ヒエラルキーから２番目のオブジェクトと親をつなぎたいのでそのようにする。
-                    //createObject.transform.parent = targetObject.transform;
                     //位置と大きさ,角度の調整
                     createObject.transform.position = targetObject.transform.GetChild(1).GetChild(0).GetComponent<MouseObjectData>()._markPointObject_Upside.transform.position;
                     createObject.transform.localPosition = new Vector3(createObject.transform.localPosition.x, createObject.transform.localPosition.y+2.0f, createObject.transform.localPosition.z);
@@ -289,10 +288,13 @@ namespace CoreLogic
                 {
                     //オブジェクト生成
                     var createObject = _gameManager.ObjectDisposition(GameManager.ObjectName.ConnectingLine_Series);
-                    //位置と大きさ,角度の調整
+                    //位置,角度の調整
                     createObject.transform.position = targetObject.transform.GetChild(loopCount+i).GetChild(0).GetComponent<MouseObjectData>()._markPointObject_Upside.transform.position;
-
-
+                    //大きさの調整
+                    float localScale_y = ((targetObject.transform.GetChild(i+1).childCount)-1) *1.25f +2.0f;
+                    createObject.transform.GetChild(1).localScale = new Vector3(0.2f,localScale_y, 0.2f);
+                    float localPos_x = -(localScale_y) + 0.1f;
+                    createObject.transform.GetChild(1).localPosition = new Vector3(localPos_x, 1.7f,0);
                 }
             }
             else if (targetObject.tag == "ParentLayoutObject")
